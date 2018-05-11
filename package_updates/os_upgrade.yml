@@ -7,7 +7,7 @@
       key: '{{ ansible_distribution }}'
 
 - name: upgrade debian based machines
-  hosts: mbuntu:FreeBSD
+  hosts: ubuntu:FreeBSD
   gather_facts: false
   tasks:
     - include_role:

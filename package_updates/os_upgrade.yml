@@ -1,0 +1,20 @@
+---
+- name: get facts and create os_type groups
+  hosts: all
+  gather_facts: True
+  tasks:
+  - group_by:
+      key: '{{ ansible_distribution }}'
+
+- name: upgrade debian based machines
+  hosts: mbuntu:FreeBSD
+  gather_facts: false
+  tasks:
+    - include_role:
+        name: debian-update
+      vars:
+        apt_update_cache_valid_time: 0
+      when: ansible_distribution in ['Debian', 'Ubuntu']
+    - include_role:
+        name: freebsd-update
+      when: ansible_distribution == 'FreeBSD'

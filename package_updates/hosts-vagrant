@@ -1,0 +1,7 @@
+[imperialspeculate]
+ubuntu1 ansible_python_interpreter=/usr/bin/python3
+ubuntu2 ansible_python_interpreter=/usr/bin/python3
+ubuntu3 ansible_python_interpreter=/usr/bin/python3
+ubuntu4 ansible_python_interpreter=/usr/bin/python3
+freebsd5 ansible_python_interpreter=/usr/local/bin/python
+freebsd6 ansible_python_interpreter=/usr/local/bin/python

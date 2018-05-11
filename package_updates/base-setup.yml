@@ -1,0 +1,56 @@
+---
+- name: install ansible requirements - ubuntu xenial
+  hosts: ubuntu[1..2]
+  gather_facts: false
+  tasks:
+    - name: install python2 (vagrant images seem to come with python3 only)
+      raw: apt install -y python python-apt
+
+- name: install ansible requirements - ubuntu bionic
+  hosts: ubuntu[3..4]
+  gather_facts: false
+  tasks:
+    - name: install python3-apt
+      raw: apt install -y python3-apt
+
+- name: install ansible requirements - freebsd
+  hosts: freebsd*
+  gather_facts: false
+  tasks:
+    - raw: pkg install --yes python
+
+- name: install ubuntu1 node as ansible control machine
+  hosts: ubuntu1
+  tasks:
+    - apt:
+        name:
+        - python3-pip
+    - pip:
+        name:
+          - pip
+          - setuptools
+          - cryptography
+          - paramiko
+        extra_args: --upgrade
+    - pip:
+        name: ansible
+        version: 2.5.2
+    - become_user: vagrant
+      git:
+        dest: ./ansible-experiments
+        repo: https://github.com/stationgroup/ansible-experiments
+    - become_user: vagrant
+      user:
+        name: vagrant
+        generate_ssh_key: true
+        ssh_key_bits: 2048
+        ssh_key_file: .ssh/id_rsa
+      register: vagrant_control_user
+
+- name: distribute vagrant@ubuntu1 ssh key
+  hosts: all
+  tasks:
+  - authorized_key:
+      key: '{{ hostvars.ubuntu1.vagrant_control_user.ssh_public_key }}'
+      user: vagrant
+

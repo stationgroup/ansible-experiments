@@ -1,0 +1,56 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# https://github.com/hashicorp/vagrant/issues/9442#issuecomment-363080565
+Vagrant::DEFAULT_SERVER_URL.replace('https://vagrantcloud.com')
+
+# All Vagrant configuration is done below. The "2" in Vagrant.configure
+# configures the configuration version (we support older styles for
+# backwards compatibility). Please don't change it unless you know what
+# you're doing.
+Vagrant.configure("2") do |config|
+
+  config.vm.define "ubuntu1" do |ubuntu1|
+    ubuntu1.vm.box = "ubuntu/xenial64"
+    ubuntu1.vm.hostname = "ubuntu1"
+    ubuntu1.vm.network "private_network", ip: "192.168.33.110"
+  end
+
+  config.vm.define "ubuntu2" do |ubuntu2|
+    ubuntu2.vm.box = "ubuntu/xenial64"
+    ubuntu2.vm.hostname = "ubuntu2"
+    ubuntu2.vm.network "private_network", ip: "192.168.33.120"
+  end
+
+  config.vm.define "ubuntu3" do |ubuntu3|
+    ubuntu3.vm.box = "ubuntu/bionic64"
+    ubuntu3.vm.hostname = "ubuntu3"
+    ubuntu3.vm.network "private_network", ip: "192.168.33.130"
+  end
+
+  config.vm.define "ubuntu4" do |ubuntu4|
+    ubuntu4.vm.box = "ubuntu/bionic64"
+    ubuntu4.vm.hostname = "ubuntu4"
+    ubuntu4.vm.network "private_network", ip: "192.168.33.140"
+  end
+
+  config.vm.define "freebsd5" do |freebsd5|
+    freebsd5.vm.box = "freebsd/FreeBSD-11.1-RELEASE"
+    freebsd5.vm.box_version = "2017.07.21"
+    freebsd5.vm.hostname = "freebsd5"
+    freebsd5.vm.network "private_network", ip: "192.168.33.150"
+    freebsd5.ssh.shell = "sh"
+    freebsd5.vm.base_mac = "080027D14C55"
+    freebsd5.vm.synced_folder ".", "/vagrant", type: "rsync"
+  end
+
+  config.vm.define "freebsd6" do |freebsd6|
+    freebsd6.vm.box = "freebsd/FreeBSD-11.1-RELEASE"
+    freebsd6.vm.box_version = "2017.07.21"
+    freebsd6.vm.hostname = "freebsd6"
+    freebsd6.vm.network "private_network", ip: "192.168.33.160"
+    freebsd6.ssh.shell = "sh"
+    freebsd6.vm.base_mac = "080027D14C66"
+    freebsd6.vm.synced_folder ".", "/vagrant", type: "rsync"
+  end
+end

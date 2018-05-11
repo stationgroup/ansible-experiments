@@ -1,0 +1,7 @@
+#!/bin/bash
+set -x
+set -e
+vagrant ssh-config > vagrant-ssh-config
+ansible-galaxy install -r roles/requirements.yml
+ansible-playbook --ssh-extra-args "-F ./vagrant-ssh-config" --inventory hosts-vagrant base-setup.yml
+ansible-playbook --ssh-extra-args "-F ./vagrant-ssh-config" --inventory hosts-vagrant os_upgrade.yml --check

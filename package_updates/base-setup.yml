@@ -22,24 +22,32 @@
 - name: install ubuntu1 node as ansible control machine
   hosts: ubuntu1
   tasks:
-    - apt:
+    - name: install pip
+      apt:
         name:
         - python3-pip
-    - pip:
+    - name: install/upgrade Python tools
+      pip:
         name:
           - pip
           - setuptools
-          - cryptography
-          - paramiko
         extra_args: --upgrade
-    - pip:
+    - name: install/upgrade ansible dependency
+      pip:
+        name:
+          - cryptography
+        extra_args: --upgrade
+    - name: install ansible
+      pip:
         name: ansible
         version: 2.5.2
     - become_user: vagrant
+      name: checkout experiments repo on controller node
       git:
         dest: ./ansible-experiments
         repo: https://github.com/stationgroup/ansible-experiments
     - become_user: vagrant
+      name: create ssh key for vagrant user
       user:
         name: vagrant
         generate_ssh_key: true

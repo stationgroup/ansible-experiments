@@ -4,7 +4,7 @@
   gather_facts: false
   tasks:
     - name: install python2 (vagrant images seem to come with python3 only)
-      raw: apt install -y python python-apt
+      raw: apt update && apt install -y python python-apt
 
 - name: install ansible requirements - ubuntu bionic
   hosts: ubuntu[3..4]
@@ -17,7 +17,7 @@
   hosts: freebsd*
   gather_facts: false
   tasks:
-    - raw: pkg install --yes python
+    - raw: pkg update && pkg install --yes python
 
 - name: install ubuntu1 node as ansible control machine
   hosts: ubuntu1

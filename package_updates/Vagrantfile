@@ -1,7 +1,7 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-# https://github.com/hashicorp/vagrant/issues/9442#issuecomment-363080565  
+# https://github.com/hashicorp/vagrant/issues/9442#issuecomment-363080565
 # Uncomment below if you need the work around.
 # Vagrant::DEFAULT_SERVER_URL.replace('https://vagrantcloud.com')
 
@@ -43,6 +43,7 @@ Vagrant.configure("2") do |config|
     freebsd5.ssh.shell = "sh"
     freebsd5.vm.base_mac = "080027D14C55"
     freebsd5.vm.synced_folder ".", "/vagrant", type: "rsync"
+    freebsd5.vm.boot_timeout = 600
   end
 
   config.vm.define "freebsd6" do |freebsd6|
@@ -53,5 +54,6 @@ Vagrant.configure("2") do |config|
     freebsd6.ssh.shell = "sh"
     freebsd6.vm.base_mac = "080027D14C66"
     freebsd6.vm.synced_folder ".", "/vagrant", type: "rsync"
+    freebsd6.vm.boot_timeout = 600
   end
 end

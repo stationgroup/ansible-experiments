@@ -43,7 +43,7 @@
       user:
         name: vagrant
         generate_ssh_key: true
-        ssh_key_bits: 2048
+        ssh_key_bits: 4096
         ssh_key_file: .ssh/id_rsa
       register: vagrant_control_user
 

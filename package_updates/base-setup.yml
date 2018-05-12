@@ -32,6 +32,11 @@
           - pip
           - setuptools
         extra_args: --upgrade
+    - name: install/upgrade ansible dependency
+      pip:
+        name:
+          - cryptography
+        extra_args: --upgrade
     - name: install ansible
       pip:
         name: ansible

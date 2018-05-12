@@ -20,6 +20,8 @@
 
 - name: Upgrade FreeBSD packages - dry-run
   command: pkg upgrade --dry-run
+  failed_when: False # --dry-run always returns failure
+                     # https://github.com/freebsd/pkg/issues/1470
   check_mode: no
   when: ansible_distribution == 'FreeBSD' and ansible_check_mode
   register: result_pkg

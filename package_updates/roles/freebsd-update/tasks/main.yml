@@ -13,6 +13,7 @@
   command: freebsd-update install --not-running-from-cron
   when: ansible_distribution == 'FreeBSD' and result_update.changed and not ansible_check_mode
   register: result_update_install
+  changed_when: "'No updates are available to install' not in result_update_install.stdout"
 
 - debug: var=result_update_install
   when: result_update_install.changed

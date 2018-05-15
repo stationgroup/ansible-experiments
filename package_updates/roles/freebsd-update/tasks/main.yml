@@ -1,6 +1,8 @@
 ---
 - name: Fetch any new FreeBSD updates
   command: freebsd-update fetch --not-running-from-cron
+  failed_when: False # --dry-run always returns failure
+                     # https://github.com/freebsd/pkg/issues/1470
   check_mode: no
   when: ansible_distribution == 'FreeBSD'
   register: result_update
@@ -11,6 +13,8 @@
 
 - name: Install FreeBSD updates
   command: freebsd-update install --not-running-from-cron
+  failed_when: False # --dry-run always returns failure
+                     # https://github.com/freebsd/pkg/issues/1470
   when: ansible_distribution == 'FreeBSD' and result_update.changed and not ansible_check_mode
   register: result_update_install
   changed_when: "'No updates are available to install' not in result_update_install.stdout"

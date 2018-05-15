@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # c-basic-offset: 4; tab-width: 4; indent-tabs-mode: t
 # vi: set shiftwidth=4 tabstop=4 noexpandtab:
@@ -6,7 +6,9 @@
 
 set -o nounset
 set -o errexit
-set -o pipefail
+
+# Uncomment for enhancements in bash
+#set -o pipefail
 
 
 vagrant up

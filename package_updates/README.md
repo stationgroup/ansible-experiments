@@ -7,6 +7,8 @@
 * Updates _FreeBSD_ packages with `pkg`, and OS with `freebsd-update`.
 
 
+![](https://thumbs.gfycat.com/FalseGranularDogwoodclubgall-size_restricted.gif)
+
 ## :book: Getting Started
 
 ## :white_check_mark: Dependencies

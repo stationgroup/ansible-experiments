@@ -7,17 +7,17 @@
 * Updates _FreeBSD_ packages with `pkg`, and OS with `freebsd-update`.
 
 
-## Setup & Usage
+## :book: Getting Started
 
-### Dependencies
+## :white_check_mark: Dependencies
 
-**macOS Dependencies**
+### macOS Dependencies
 
 ```bash
 brew cask install vagrant virtualbox ; brew install git ansible
 ```
 
-**Linux - Ubuntu Dependencies**
+### Linux - Ubuntu Dependencies
 
 Add this Ansible PPA and [Unofficial Vagrant Debian Repository](https://vagrant-deb.linestarve.com/) because [Vagrant is made by the excuse making developers at HashiCorp](https://github.com/hashicorp/vagrant-installers/issues/12#issuecomment-328379740).
 
@@ -33,9 +33,9 @@ Then install the dependencies.
 sudo apt install -y vagrant virtualbox ansible git rsync python-pip
 ```
 
-_If you feel you **need** the latest VirtualBox you can [follow the Oracle instructions](https://www.virtualbox.org/wiki/Linux_Downloads) any time.
+_If you feel you **need** the latest VirtualBox you can [follow the Oracle instructions](https://www.virtualbox.org/wiki/Linux_Downloads) any time._
 
-**FreeBSD Dependencies**
+### FreeBSD Dependencies
 
 `root:#`
 ```bash

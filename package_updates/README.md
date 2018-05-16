@@ -6,6 +6,50 @@
 
 * Updates _FreeBSD_ packages with `pkg`, and OS with `freebsd-update`.
 
+
+## Setup & Usage
+
+### Dependencies
+
+**macOS Dependencies**
+
+```bash
+brew cask install vagrant virtualbox ; brew install git ansible
+```
+
+**Linux - Ubuntu Dependencies**
+
+Add this Ansible PPA and [Unofficial Vagrant Debian Repository](https://vagrant-deb.linestarve.com/) because [Vagrant is made by the excuse making developers at HashiCorp](https://github.com/hashicorp/vagrant-installers/issues/12#issuecomment-328379740).
+
+_If you use the Ubuntu Repository version of Vagrant, it is **very** behind release and will likely throw errors._
+
+```bash
+sudo add-apt-repository ppa:ansible/ansible ; sudo apt-get update ; sudo bash -c 'echo deb https://vagrant-deb.linestarve.com/ any main > /etc/apt/sources.list.d/wolfgang42-vagrant.list' && sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key AD319E0F7CFFA38B4D9F6E55CE3F3DE92099F7A4 && sudo apt-get update
+```
+
+Then install the dependencies.
+
+```bash
+sudo apt install -y vagrant virtualbox ansible git rsync python-pip
+```
+
+_If you feel you **need** the latest VirtualBox you can [follow the Oracle instructions](https://www.virtualbox.org/wiki/Linux_Downloads) any time.
+
+**FreeBSD Dependencies**
+
+`root:#`
+```bash
+pkg install --yes vagrant virtualbox-ose-nox11 ansible git rsync ca_root_nss
+```
+
+**Windows (TBD) Dependencies**
+
+## :floppy_disk: Install and Use
+
+```bash
+cd ; git clone https://github.com/stationgroup/ansible-experiments ; cd ~/ansible-experiments/package_updates ; ./setup-requirements
+```
+
 ## Details
 
 The Vagrant file being used is a copy from

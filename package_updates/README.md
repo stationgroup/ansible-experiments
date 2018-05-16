@@ -6,8 +6,7 @@
 
 * Updates _FreeBSD_ packages with `pkg`, and OS with `freebsd-update`.
 
-
-![](https://thumbs.gfycat.com/FalseGranularDogwoodclubgall-size_restricted.gif)
+![](https://giant.gfycat.com/WickedDifferentAiredaleterrier.gif)
 
 ## :book: Getting Started
 
@@ -69,6 +68,8 @@ vagrant status
 If you're all done, need disk space, or you fucked up, you can `destroy` everything or `halt` it.
 
 _E.g._ `vagrant destroy` `vagrant halt` `vagrant up` [`RTFM`](https://www.vagrantup.com/docs/cli/up.html)
+
+![](https://thumbs.gfycat.com/FalseGranularDogwoodclubgall-size_restricted.gif)
 
 ## :neckbeard: Details
 

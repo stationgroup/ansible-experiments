@@ -1,5 +1,12 @@
-# Update packages on ubuntu and freebsd
-:microscope: #1
+# Update packages on Ubuntu and Freebsd
+
+## Summary
+
+* Updates _Ubuntu_ packages and OS with `apt`.
+
+* Updates _FreeBSD_ packages with `pkg`, and OS with `freebsd-update`.
+
+## Details
 
 The Vagrant file being used is a copy from
 `https://github.com/stationgroup/vagrant-labs/tree/master/imperialspeculate`.
@@ -29,27 +36,3 @@ add some extra arguments:
 `--ssh-extra-args "-F ./vagrant-ssh-config" --inventory hosts-vagrant`
 to ansible execution. These are not necessary once running ansible from
 `ubuntu1`.
-
----
-
-I know these instructions are no good right now. I'm busy with other stuff so bare with me.
-
-If you just want to update all your shit you don't need
-
-```
-README.md	
-Vagrantfile
-setup-requirements
-```
-
-So `git clone https://github.com/stationgroup/ansible-experiments` and `cd` into `ansiblesexperiments/package_updates`.
-
-Add your servers to `hosts` file.
-
-There is a Ansible Galaxy dependency you will need before first run. `ansible-galaxy install -r roles/requirements.yml`
-
-Now you can run:
-
-```
-ansible-playbook os_upgrade.yml
-```

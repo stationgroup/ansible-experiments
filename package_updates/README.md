@@ -1,12 +1,12 @@
 # Update packages on Ubuntu and Freebsd
 
+![](https://giant.gfycat.com/WickedDifferentAiredaleterrier.gif)
+
 ## Summary
 
 * Updates _Ubuntu_ packages and OS with `apt`.
 
 * Updates _FreeBSD_ packages with `pkg`, and OS with `freebsd-update`.
-
-![](https://giant.gfycat.com/WickedDifferentAiredaleterrier.gif)
 
 ## :book: Getting Started
 

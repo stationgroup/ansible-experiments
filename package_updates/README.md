@@ -44,13 +44,31 @@ pkg install --yes vagrant virtualbox-ose-nox11 ansible git rsync ca_root_nss
 
 **Windows (TBD) Dependencies**
 
-## :floppy_disk: Install and Use
+# :floppy_disk: Install and Usage
+
+One-liner to start and provision all the VMs and prime them for _Ansible_.
 
 ```bash
 cd ; git clone https://github.com/stationgroup/ansible-experiments ; cd ~/ansible-experiments/package_updates ; ./setup-requirements
 ```
 
-## Details
+Now while you're in the directory `ansible-experiments/package_updates`, you can ssh from the _host_ to your _Ansible_ control node, `ubuntu1`:
+
+```bash
+vagrant ssh ubuntu1
+```
+
+Or, while you're still at the VM host shell you can check and see if your VMs are running:
+
+```bash
+vagrant status
+```
+
+If you're all done, need disk space, or you fucked up, you can `destroy` everything or `halt` it.
+
+_E.g._ `vagrant destroy` `vagrant halt`
+
+## :neckbeard: Details
 
 The Vagrant file being used is a copy from
 `https://github.com/stationgroup/vagrant-labs/tree/master/imperialspeculate`.

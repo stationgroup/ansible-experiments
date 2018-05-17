@@ -8,6 +8,8 @@
 
 * Updates _FreeBSD_ packages with `pkg`, and OS with `freebsd-update`.
 
+* **Updates [_all-the-things_](https://www.google.com/search?q=all+the+things), all at once.**
+
 ## :book: Getting Started
 
 ## :white_check_mark: Dependencies

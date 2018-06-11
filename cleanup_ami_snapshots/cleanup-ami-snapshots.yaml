@@ -16,7 +16,7 @@
         aws_region_env_var: "{{ lookup('env', 'AWS_REGION') }}"
       register: aws_region_env_var
 
-    - name: Fail if the AWs_REGION environemtn var is not set
+    - name: Fail if the AWS_REGION environment var is not set
       fail:
         msg: "The AWS_REGION environment variable is not set"
       when: not aws_region_env_var

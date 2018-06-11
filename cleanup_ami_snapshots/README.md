@@ -5,12 +5,12 @@ Tested with Ansible version: 2.5.4
 ## Requirements
 This playbook needs the Python AWS SDK installed (both boto & boto3)
 
-    ```
-    sudo pip install boto boto3
-    # or
-    pip install --user boto boto3
-    # or use pipenv for a virtualenv setup..
-    ```
+```
+sudo pip install boto boto3
+# or
+pip install --user boto boto3
+# or use pipenv for a virtualenv setup..
+```
 
 
 ## Variables
@@ -87,7 +87,7 @@ ok: [localhost]
 TASK [Register the AWS_REGION environment variable.] ***************************************************************************************
 ok: [localhost]
 
-TASK [Fail if the AWs_REGION environemtn var is not set] ***********************************************************************************
+TASK [Fail if the AWS_REGION environment var is not set] ***********************************************************************************
 skipping: [localhost]
 
 TASK [Gather facts about all AMIs with given tag ] *****************************************************************************************

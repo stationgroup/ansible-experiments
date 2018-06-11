@@ -1,0 +1,50 @@
+- name: Create test AMI's (this might take some time)
+  hosts: localhost
+  connection: local
+  gather_facts: True
+
+  vars:
+    aws_profile: aws-ansible
+
+  tasks:
+    - name: Register the AWS_REGION environment variable.
+      set_fact:
+        aws_region_env_var: "{{ lookup('env', 'AWS_REGION') }}"
+      register: aws_region_env_var
+
+    - name: Fail if the AWs_REGION environemtn var is not set
+      fail:
+        msg: "The AWS_REGION environment variable is not set"
+      when: not aws_region_env_var
+
+    - name: Create ec2 instance to create AMI's from
+      ec2_instance:
+        profile: "{{ aws_profile }}"
+        state: present
+        name: "ansible-test-instance"
+        image_id: ami-ca0135b3
+        volumes:
+          - device_name: "/dev/sdb"
+            ebs:
+              volume_size: 8
+        network:
+          assign_public_ip: false
+        tags:
+          MakeImage: 'true'
+      register: test_instance
+
+    - name: Create AMI's from instance
+      ec2_ami:
+        profile: "{{ aws_profile }}"
+        state: present
+        name: "AMI-00{{ item }}"
+        instance_id: "{{ test_instance.instance_ids[0] }}"
+        wait: yes
+      with_sequence: start=1 end=3
+
+    - name: Cleanup temp instance
+      ec2_instance:
+        profile: "{{ aws_profile }}"
+        state: terminated
+        filters:
+          instance-id: "{{ test_instance.instance_ids[0] }}"

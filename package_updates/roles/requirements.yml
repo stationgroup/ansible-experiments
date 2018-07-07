@@ -1,4 +1,4 @@
 ---
-- src: tersmitten.apt
+- src: oefenweb.apt
   version: v1.4.15
   name: debian-update

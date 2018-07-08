@@ -1,6 +1,6 @@
 # Update packages on Ubuntu and Freebsd
 
-![](https://giant.gfycat.com/WickedDifferentAiredaleterrier.gif)
+![](https://cdn.ipfu.org/git/assets/gif/shell-ansible-experiments.gif)
 
 ## Summary
 
@@ -71,7 +71,7 @@ If you're all done, need disk space, or you fucked up, you can `destroy` everyth
 
 _E.g._ `vagrant destroy` `vagrant halt` `vagrant up` [`RTFM`](https://www.vagrantup.com/docs/cli/up.html)
 
-![](https://thumbs.gfycat.com/FalseGranularDogwoodclubgall-size_restricted.gif)
+![](https://cdn.ipfu.org/git/assets/gif/shell-ansible-experiments-long.gif)
 
 ## :neckbeard: Details
 

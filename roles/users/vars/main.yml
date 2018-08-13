@@ -1,12 +1,21 @@
 ---
-groups:
-  - 
+user_groups:
+  - name: remember 
 
 users:
-  - remember
-  - direct
-  - degree
-  - sand
-  - grief
-  - jam
-  - king
+  - name: remember
+    keys:
+      - file: key1
+        state: present
+    shell_lines:
+      - line: "export SSH_AUTH_SOCK=$HOME/.gnupg/S.gpg-agent.ssh"
+        state: present
+      - line: "line2"
+        state: absent
+  - name: test
+    keys:
+      - file: key2
+        state: absent
+        #    shell_lines:
+        #      - "line1"
+        #      - "line2"

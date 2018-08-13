@@ -1,0 +1,88 @@
+---
+- name: Ensure groups exist
+  group:
+    name: "{{ item.name }}"
+    gid: "{{ item.gid | default(omit) }}"
+    state: present
+  with_items: "{{ user_groups }}"
+
+- name: Ensure users exist
+  user:
+    name: "{{ item.name }}"
+    id: "{{ item.id | default(omit) }}"
+    groups: "{{ item.groups | default(omit) }}"
+    shell: "{{ item.shell | default(default_shell) }}"
+    state: present
+  no_log: True
+  with_items: "{{ users }}"
+
+- name: Configure authorized_keys
+  authorized_key:
+    user: "{{ item.0.name }}"
+    key: "{{ lookup('file', 'keys/' + item.0.name + '/' + item.1.file + '.pub') }}"
+    state: "{{ item.1.state | default(present) }}"
+  with_subelements:
+    - "{{ users }}"
+    -  keys
+
+#- name: debug
+#  debug:
+#    msg: "{{ item.0 }} - {{ item.1 }}"
+#  with_nested:
+#    - "{{ users }}"
+#    - "{{ users | map(attribute='shell_lines') | list }}"
+#  when: ansible_os_family == 'Debian' and item.1 is defined
+
+- name: check vars
+  debug:
+    msg: "{{ item.0.name }} --- {{ item.1 }}"
+  with_subelements:
+    - "{{ users }}"
+    - shell_lines
+    - skip_missing: true
+  when: ansible_os_family == 'Debian'
+
+- name: Add Ansible comment in bashrc
+  lineinfile:
+    path: "/home/{{ item.name }}/.bashrc"
+    line: "## Ansible managed below this line ###########"
+    insertafter: EOF
+    state: present
+  with_items:
+    - "{{ users }}"
+  when: ansible_os_family == 'Debian'
+
+- name: Configure bashrc
+  lineinfile:
+    path: "/home/{{ item.0.name }}/.bashrc"
+    line: "{{ item.1.line }}"
+    insertafter: "^## Ansible managed below this line"
+    state: "{{ item.1.state }}"
+  with_subelements:
+    - "{{ users }}"
+    - shell_lines
+    - skip_missing: true
+  when: ansible_os_family == 'Debian'
+  
+- name: Add Ansible comment in cshrc
+  lineinfile:
+    path: "/home/{{ item.0.name }}/.bashrc"
+    line: "## Ansible managed blow this line ###########"
+    insertafter: EOF
+    state: present
+  with_items:
+    - "{{ users }}"
+  when: ansible_os_family == 'FreeBSD'
+
+- name: Configure cshrc
+  lineinfile:
+    path: "/home/{{ item.0.name }}/.cshrc"
+    line: "{{ item.1.line }}"
+    insertafter: EOF
+    state: "{{ item.1.state }}"
+  with_subelements:
+    - "{{ users }}"
+    - shell_lines
+    - skip_missing: true
+  when: ansible_os_family == 'FreeBSD'
+

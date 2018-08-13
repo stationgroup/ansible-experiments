@@ -1,0 +1,38 @@
+- name: Ensure .ssh folder is created
+  file:
+    path: "/home/{{item.name}}/.ssh"
+    state: directory
+    mode: 0600
+  with_items:
+    - "{{ users }}"
+
+- name: Check if user has ~/.ssh/config
+  stat:
+    path: "/home/{{ item.name }}/.ssh/config"
+  with_items: "{{ users }}"
+  register: sshconfig
+
+#- name: debug items
+#  debug:
+#    msg: "{{ item.item.name }} {{item.stat}}"
+#  with_items:
+#    - "{{ sshconfig.results }}"
+
+- name: Create ~/.ssh/config when absent
+  file:
+    path: "/home/{{ item.item.name }}/.ssh/config"
+    owner: "{{ item.item.name }}"
+    mode: 0600
+    state: touch
+  when: item.stat.exists == False
+  with_items:
+    - "{{ sshconfig.results }}"
+  no_log: True
+
+- name: Configure ~/.ssh/config
+  template:
+    src: ssh.config.j2 
+    dest: "/home/{{ item.name }}/.ssh/config"
+    owner: "{{ item.name }}"
+  with_items:
+    - "{{ users }}"

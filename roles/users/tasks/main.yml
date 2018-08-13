@@ -1,8 +1,4 @@
 ---
-- name: Ensure groups exist
-  group:
-    name: "{{ item.name }}"
-    gid: "{{ item.gid | default(ommit) }}"
-    state: present
-  with_items: groups
-
+- include_tasks: set_facts.yml
+- include_tasks: users.yml
+- include_tasks: ssh_config.yml

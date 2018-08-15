@@ -2,8 +2,8 @@
 Ansible role to create/configure users on Linux/FreeBSD 
 
 ## Variables
-| user_groups | 
-| ---         | 
+| user_groups |   |
+| ---         |---| 
 | name        | name of the group                             |
 | gid         | group ID                                      |   
 | state       | whether the group shoud be created or removed |

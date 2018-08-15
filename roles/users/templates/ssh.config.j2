@@ -1,6 +1,0 @@
-host blabla
-  hostname {{ ansible_hostname }}
-  User {{ item.name }}
-  RemoteForward /home/{{ item.name }}/.gnupg/S.gpg-agent $HOME/.gnupg/S.gpg-agent
-  RemoteForward /home/{{ item.name }}/.gnupg/S.gpg-agent.ssh $HOME/.gnupg/S.gpg-agent.ssh
-  ServerAliveInterval 10

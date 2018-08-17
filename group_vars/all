@@ -33,6 +33,3 @@ users:
     shell_lines:
       - line: "export SSH_AUTH_SOCK=$HOME/.gnupg/S.gpg-agent.ssh"
         state: present
-#    ssh_config:
-#      - host: "{{ ansible_hostname }}"
-#        hostname: "{{ ansible_hostname }}"

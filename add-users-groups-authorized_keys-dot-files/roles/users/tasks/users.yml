@@ -28,7 +28,7 @@
     backup: yes
   with_subelements:
     - "{{ users }}"
-    - shell_lines
+    - bash_lines
     - skip_missing: true
   when: ansible_os_family == 'Debian'
 
@@ -40,7 +40,7 @@
     state: "{{ item.1.state | default('present')}}"
   with_subelements:
     - "{{ users }}"
-    - shell_lines
+    - csh_lines
     - skip_missing: true
   when: ansible_os_family == 'FreeBSD'
 

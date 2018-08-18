@@ -11,14 +11,15 @@ Ansible roles to create/configure users on Linux/FreeBSD.
 
 | users            |   |    |
 | ---:             |---| ---|
-| _variable name_  | Description                                   | Data type       | 
+| _variable name_    | Description                                   | Data type       | 
 | name             | username                                      | string          |
 | state            | whether the user should be created or removed | present/absent  |
 | password         | string of an encrypted value(1)               | string          |
 | groups           | additional groups the user should belong to   | list            |
 | uid              | optionally specify a user id                  | int             |
 | keys             | list of dictionaries                          | list            |
-| shell_lines      | list of dictionaries                          | list            |
+| bash_lines       | configure lines in .bashrc                    | list            |
+| csh_lines        | configure lines in .cshrc                     | list            |
 
 (1) https://docs.ansible.com/ansible/latest/reference_appendices/faq.html#how-do-i-generate-crypted-passwords-for-the-user-module
 ## Default variables
@@ -47,7 +48,7 @@ users:
     keys:
       - file: key1
         state: present
-    shell_lines:
+    bash_lines:
       - line: "export SSH_AUTH_SOCK=$HOME/.gnupg/S.gpg-agent.ssh"
         state: present
       - line: "alias ls='ls lah'"
@@ -56,8 +57,8 @@ users:
     keys:
       - file: key2
         state: absent
-    shell_lines:
-      - line: "export SSH_AUTH_SOCK=$HOME/.gnupg/S.gpg-agent.ssh"
+    csh_lines:
+      - line: "ls ls -lah"
         state: absent
 ```
 ## Using the Role

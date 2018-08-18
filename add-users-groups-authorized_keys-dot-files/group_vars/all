@@ -17,7 +17,7 @@ users:
     keys:
       - file: key1
         state: present
-    shell_lines:
+    bash_lines:
       - line: "testline"
         state: present
       - line: "export SSH_AUTH_SOCK=$HOME/.gnupg/S.gpg-agent.ssh"
@@ -30,6 +30,6 @@ users:
     keys:
       - file: key2
         state: absent
-    shell_lines:
-      - line: "export SSH_AUTH_SOCK=$HOME/.gnupg/S.gpg-agent.ssh"
+    csh_lines:
+      - line: "alias ls ls -lah"
         state: present

@@ -1,0 +1,8 @@
+- set_fact:
+    default_shell: "{{ default_freebsd_shell }}"
+  when: ansible_os_family == 'FreeBSD'
+
+- set_fact:
+    default_shell: "{{ default_linux_shell }}"
+  when: ansible_os_family == 'Debian'
+

@@ -1,0 +1,46 @@
+---
+- name: Ensure groups exist
+  group:
+    name: "{{ item.name }}"
+    gid: "{{ item.gid | default(omit) }}"
+    state: "{{ item.state | default('present') }}"
+  with_items: "{{ user_groups }}"
+
+
+- name: Ensure users exist
+  user:
+    name: "{{ item.name }}"
+    state: "{{ item.state | default('present') }}"
+    password: "{{ item.password | default(omit) }}"
+    groups: "{{ item.groups | default(omit) }}"
+    uid: "{{ item.uid | default(omit) }}"
+    shell: "{{ item.shell | default(default_shell) }}"
+    append: yes
+  no_log: True
+  with_items: "{{ users }}"
+
+
+- name: Configure bashrc
+  lineinfile:
+    path: "/home/{{ item.0.name }}/.bashrc"
+    line: "{{ item.1.line }}"
+    state: "{{ item.1.state | default('present') }}"
+    backup: yes
+  with_subelements:
+    - "{{ users }}"
+    - shell_lines
+    - skip_missing: true
+  when: ansible_os_family == 'Debian'
+
+
+- name: Configure cshrc
+  lineinfile:
+    path: "/home/{{ item.0.name }}/.cshrc"
+    line: "{{ item.1.line }}"
+    state: "{{ item.1.state | default('present')}}"
+  with_subelements:
+    - "{{ users }}"
+    - shell_lines
+    - skip_missing: true
+  when: ansible_os_family == 'FreeBSD'
+

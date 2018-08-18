@@ -1,0 +1,4 @@
+default_freebsd_shell: "/bin/csh"
+default_linux_shell: "/bin/bash"
+default_shell_lines:
+  - SSH_AUTH_SOCK=$HOME/.gnupg/S.gpg-agent.ssh

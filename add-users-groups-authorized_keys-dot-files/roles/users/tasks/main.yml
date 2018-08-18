@@ -1,0 +1,4 @@
+---
+- include_tasks: set_facts.yml
+- include_tasks: users.yml
+- include_tasks: ssh_config.yml

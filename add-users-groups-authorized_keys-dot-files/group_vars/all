@@ -1,0 +1,35 @@
+---
+user_groups:
+  - name: mygroup
+    gid: 700
+  - name: mysecondgroup
+    gid: 702
+    state: absent
+    
+
+users:
+  - name: remember
+    state: present
+    password: "blabla"
+    groups:
+      - mygroup
+    uid: 1100
+    keys:
+      - file: key1
+        state: present
+    shell_lines:
+      - line: "testline"
+        state: present
+      - line: "export SSH_AUTH_SOCK=$HOME/.gnupg/S.gpg-agent.ssh"
+        state: present
+      - line: "alias ls='ls lah'"
+        state: present
+    ssh_config:
+      - ServerAliveInterval: 10
+  - name: test
+    keys:
+      - file: key2
+        state: absent
+    shell_lines:
+      - line: "export SSH_AUTH_SOCK=$HOME/.gnupg/S.gpg-agent.ssh"
+        state: present

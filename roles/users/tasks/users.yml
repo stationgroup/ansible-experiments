@@ -16,7 +16,7 @@
     uid: "{{ item.uid | default(omit) }}"
     shell: "{{ item.shell | default(default_shell) }}"
     append: yes
-    no_log: True
+  no_log: True
   with_items: "{{ users }}"
 
 

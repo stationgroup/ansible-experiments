@@ -1,3 +1,4 @@
+
 - name: Ensure .ssh folder is created
   file:
     path: "/home/{{item.name}}/.ssh"
@@ -7,6 +8,7 @@
     group: "{{ item.name }}"
   with_items:
     - "{{ users }}"
+  when: item.state == "present"
 
 
 - name: Configure authorized_keys
@@ -17,4 +19,5 @@
   with_subelements:
     - "{{ users }}"
     -  keys
+  when: item.0.state is defined and item.0.state == "present"
 

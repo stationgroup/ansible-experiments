@@ -17,11 +17,15 @@ Ansible roles to create/configure users on Linux/FreeBSD.
 | password         | string of an encrypted value(1)               | string          |
 | groups           | additional groups the user should belong to   | list            |
 | uid              | optionally specify a user id                  | int             |
+| enable_sudo      | Enable passwordless sudo for the given user   | bool            |
 | keys             | list of dictionaries                          | list            |
 | bash_lines       | configure lines in .bashrc                    | list            |
+| bash_blocks      | configure lines in .bashrc                    | list            |
 | csh_lines        | configure lines in .cshrc                     | list            |
+| csh__blocks      | configure lines in .cshrc                     | list            |
 
 (1) https://docs.ansible.com/ansible/latest/reference_appendices/faq.html#how-do-i-generate-crypted-passwords-for-the-user-module
+
 ## Default variables
 The default shells depending on the OS are:
 
@@ -45,6 +49,7 @@ users:
     groups:
       - mygroup
     uid: 1100
+    enable_sudo: true
     keys:
       - file: key1
         state: present
@@ -53,7 +58,13 @@ users:
         state: present
       - line: "alias ls='ls lah'"
         state: present
+    bash_blocks:
+      - content: |
+          #testing
+          #multiline
+        state: present
   - name: test
+    enable_sudo: false
     keys:
       - file: key2
         state: absent
@@ -95,6 +106,9 @@ This role allows you to add or remove lines to a user's `.bashrc` or `cshrc` fil
 
 Add items to the **shell_lines** key in the **users** variable. Each item exists of a _line_ and _state_ key.
 
+**lines**
+
+Use _lines_ if you want to make sure a single line is present or not.
 Example:
 ```
 shell_lines:
@@ -106,5 +120,16 @@ shell_lines:
     state: present
 ```
 
+**blocks**
 
+use blocks if you want to make sure a number of lines that belong together are
+present or not.
 
+Example:
+```
+bash_blocks:
+  - content: |
+      if [ condition ]; then
+        do something
+    state: present
+```

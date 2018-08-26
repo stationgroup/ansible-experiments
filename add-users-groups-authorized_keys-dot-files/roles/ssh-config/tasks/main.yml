@@ -13,7 +13,7 @@
     group: "{{ item.item.name }}"
     mode: 0600
     state: touch
-  when: item.stat.exists == False
+  when: item.stat.exists == False and item.item.state == "present"
   with_items:
     - "{{ sshconfig.results }}"
   no_log: True
@@ -42,3 +42,4 @@
     - "{{ users }}"
     - ssh_config
     - skip_missing: true
+  when: item.0.state == "present"

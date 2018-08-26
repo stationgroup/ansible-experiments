@@ -5,28 +5,39 @@ user_groups:
   - name: mysecondgroup
     gid: 702
     state: absent
+  - name: admin
+    gid: 703
+    state: present
     
 
 users:
   - name: remember
-    state: present
+    state: present 
     password: "blabla"
     groups:
       - mygroup
+      - admin
     uid: 1100
+    enable_sudo: false
     keys:
       - file: key1
         state: present
     bash_lines:
-      - line: "testline"
+      - line: "#testline"
         state: present
       - line: "export SSH_AUTH_SOCK=$HOME/.gnupg/S.gpg-agent.ssh"
         state: present
       - line: "alias ls='ls lah'"
         state: present
+    bash_blocks:
+      - content: |
+          #testing
+          #multiline
+        state: absent
     ssh_config:
       - ServerAliveInterval: 10
   - name: test
+    state: present
     keys:
       - file: key2
         state: absent

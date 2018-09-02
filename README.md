@@ -1,8 +1,11 @@
-# ansible-experiments
-:microscope: Ansible experimentation
+# Ansible Playbook Experiments
+
+Paid for by [Bryan Black](https://bringyourwallet.com/donate), for the benefit of all lazy sysadmin. <sub>[What's ansible?](https://docs.ansible.com/)</sub>
+
+Special thanks to the helpful devs that contributed their expertise.
 
 
-### What can these playbooks do?
+## What can these playbooks do?
 
 Features                                         | Ubuntu | Debian | FreeBSD | 
 -------------------------------------------------|--------|--------|---------|
@@ -14,6 +17,7 @@ Features                                         | Ubuntu | Debian | FreeBSD |
 [ami]: /cleanup_ami_snapshots
 [usr_mgmt]: /add-users-groups-authorized_keys-dot-files
 
+---
 ![](https://cdn.ipfu.org/git/assets/gif/shell-ansible-experiments.gif)
 
 ## Contributors

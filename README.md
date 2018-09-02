@@ -1,11 +1,20 @@
 # ansible-experiments
 :microscope: Ansible experimentation
 
-![](https://thumbs.gfycat.com/FalseGranularDogwoodclubgall-size_restricted.gif)
 
+### What can these playbooks do?
 
-### [Use _Ansible_ to install OS updates](/package_updates)
+Features                                         | Ubuntu | Debian | FreeBSD | 
+-------------------------------------------------|--------|--------|---------|
+💾 [Update packages and OS][pkg_upd]                | ✅     | ✅     | ✅     |
+☁️ [Make & Cleanup EC2 AMI snapshots][ami]          | ✅     | ✅     | ✅     |
+🎛 [User account and dot file management][usr_mgmt] | ✅     | ✅     | ✅     |
 
+[pkg_upd]: /package_updates
+[ami]: /cleanup_ami_snapshots
+[usr_mgmt]: /add-users-groups-authorized_keys-dot-files
+
+![](https://cdn.ipfu.org/git/assets/gif/shell-ansible-experiments.gif)
 
 ## Contributors
 

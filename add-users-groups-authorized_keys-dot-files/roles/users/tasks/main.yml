@@ -1,0 +1,11 @@
+---
+- name: Check for required variables
+  fail:
+    msg: "Variable: 'users.name' or 'users.state' NOT defined!"
+  with_items: "{{ users }}"
+  when: item.state is not defined or item.name is not defined
+
+
+- include_tasks: set_facts.yml
+- include_tasks: users.yml
+- include_tasks: ssh_config.yml

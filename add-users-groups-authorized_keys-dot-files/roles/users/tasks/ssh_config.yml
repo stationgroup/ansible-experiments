@@ -1,0 +1,23 @@
+
+- name: Ensure .ssh folder is created
+  file:
+    path: "/home/{{item.name}}/.ssh"
+    state: directory
+    mode: 0700
+    owner: "{{ item.name }}"
+    group: "{{ item.name }}"
+  with_items:
+    - "{{ users }}"
+  when: item.state == "present"
+
+
+- name: Configure authorized_keys
+  authorized_key:
+    user: "{{ item.0.name }}"
+    key: "{{ lookup('file', 'keys/' + item.0.name + '/' + item.1.file + '.pub') }}"
+    state: "{{ item.1.state | default('present') }}"
+  with_subelements:
+    - "{{ users }}"
+    -  keys
+  when: item.0.state is defined and item.0.state == "present"
+

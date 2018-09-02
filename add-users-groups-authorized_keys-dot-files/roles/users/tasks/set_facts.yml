@@ -1,0 +1,26 @@
+# Set default shell
+- set_fact:
+    default_shell: "{{ default_freebsd_shell }}"
+  when: ansible_os_family == 'FreeBSD'
+
+- set_fact:
+    default_shell: "{{ default_linux_shell }}"
+  when: ansible_os_family == 'Debian'
+
+# Set sudoers path
+- set_fact:
+    sudoers_path: /usr/local/etc/sudoers.d
+  when: ansible_os_family == 'FreeBSD'
+ 
+- set_fact:
+    sudoers_path: /etc/sudoers.d
+  when: ansible_os_family == 'Debian'
+    
+# Set sudo config path
+- set_fact:
+    sudo_config_path: /usr/local/etc/sudoers
+  when: ansible_os_family == 'FreeBSD'
+ 
+- set_fact:
+    sudo_config_path: /etc/sudoers
+  when: ansible_os_family == 'Debian'

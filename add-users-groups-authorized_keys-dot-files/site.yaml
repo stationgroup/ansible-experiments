@@ -1,0 +1,8 @@
+---
+- name: Manage user configuration
+  hosts: all
+  #  remote_user: root
+  roles:
+    - users
+    - ssh-config
+

@@ -1,0 +1,45 @@
+---
+- name: Check if user has ~/.ssh/config
+  stat:
+    path: "/home/{{ item.name }}/.ssh/config"
+  with_items: "{{ users }}"
+  register: sshconfig
+
+
+- name: Create ~/.ssh/config when absent
+  file:
+    path: "/home/{{ item.item.name }}/.ssh/config"
+    owner: "{{ item.item.name }}"
+    group: "{{ item.item.name }}"
+    mode: 0600
+    state: touch
+  when: item.stat.exists == False and item.item.state == "present"
+  with_items:
+    - "{{ sshconfig.results }}"
+  no_log: True
+
+
+- name: Configure ~/.ssh/config
+  blockinfile:
+    path: "/home/{{ item.0.name  }}/.ssh/config"
+    owner: "{{ item.0.name }}"
+    group: "{{ item.0.name }}"
+    mode: 0600
+    marker: "# {mark} ANSIBLE MANAGED BLOCK"
+    content: |
+      {% for host in groups['all'] -%} 
+      Host {{ hostvars[host]['ssh_short_name'] }}
+          Hostname {{ hostvars[host]['inventory_hostname'] }}
+          RemoteForward /home/{{ item.0.name }}/.gnupg/S.gpg-agent $HOME/.gnupg/S.gpg-agent
+          RemoteForward /home/{{ item.0.name }}/.gnupg/S.gpg-agent.ssh $HOME/.gnupg/S.gpg-agent.ssh
+      {% for k,v  in item.1.items() %}
+      {% if k|lower != "host" and k|lower != "hostname" %}
+          {{k}} {{v}}
+      {% endif %}
+      {% endfor %}
+      {% endfor %}
+  with_subelements:
+    - "{{ users }}"
+    - ssh_config
+    - skip_missing: true
+  when: item.0.state == "present"

@@ -1,0 +1,113 @@
+---
+- name: Add/Remove group
+  group:
+    name: "{{ item.name }}"
+    gid: "{{ item.gid | default(omit) }}"
+    state: "{{ item.state | default('present') }}"
+  with_items: "{{ user_groups }}"
+
+
+- name: Add/Remove user
+  user:
+    name: "{{ item.name }}"
+    state: "{{ item.state | default('present') }}"
+    password: "{{ item.password | default(omit) }}"
+    groups: "{{ item.groups | default(omit) }}"
+    uid: "{{ item.uid | default(omit) }}"
+    shell: "{{ item.shell | default(default_shell) }}"
+    remove: yes
+  no_log: False
+  with_items: "{{ users }}"
+
+
+- name: Configure bashrc lines
+  lineinfile:
+    path: "/home/{{ item.0.name }}/.bashrc"
+    line: "{{ item.1.line }}"
+    state: "{{ item.1.state | default('present') }}"
+    backup: yes
+  with_subelements:
+    - "{{ users }}"
+    - bash_lines
+    - skip_missing: true
+  when: ansible_os_family == 'Debian' and item.0.state == "present"
+
+- name: Configure bashrc blocks
+  blockinfile:
+    path: "/home/{{ item.0.name }}/.bashrc"
+    content: "{{ item.1.content }}"
+    marker: "# {mark} ANSIBLE managed content. Block item #{{ listitem }}"
+    state: "{{ item.1.state | default('present') }}"
+    backup: yes
+  with_subelements:
+    - "{{ users }}"
+    - bash_blocks
+    - skip_missing: true
+  when: ansible_os_family == 'Debian' and item.0.state == "present"
+  loop_control:
+    index_var: listitem
+
+- name: Configure cshrc lines
+  lineinfile:
+    path: "/home/{{ item.0.name }}/.cshrc"
+    line: "{{ item.1.line }}"
+    state: "{{ item.1.state | default('present')}}"
+    backup: yes
+  with_subelements:
+    - "{{ users }}"
+    - csh_lines
+    - skip_missing: true
+  when: ansible_os_family == 'FreeBSD' and item.0.state == "present"
+
+- name: Configure cshrc blocks
+  blockinfile:
+    path: "/home/{{ item.0.name }}/.cshrc"
+    content: "{{ item.1.conent }}"
+    marker: "# {mark} ANSIBLE managed content. Block item #{{ listitem }}"
+    state: "{{ item.1.state | default('present')}}"
+    backup: yes
+  with_subelements:
+    - "{{ users }}"
+    - csh_blocks
+    - skip_missing: true
+  when: ansible_os_family == 'FreeBSD' and item.0.state == "present"
+  loop_control:
+    index_var: listitem
+
+- name: Ensure sudo is installed (Debian)
+  apt:
+    name: sudo
+    update_cache: yes
+    cache_valid_time: "{{ apt_cache_valid | default('86400') }}"
+  when: ansible_os_family == "Debian"
+
+- name: Ensure sudo is installed (FreeBSD)
+  portinstall:
+    name: sudo
+    state: present
+  when: ansible_os_family == "FreeBSD"
+
+- name: Enable sudo for user
+  lineinfile:
+    path: "{{ sudoers_path }}/{{ item.name }}"
+    line: "{{ item.name }} ALL=(ALL) NOPASSWD:ALL"
+    state: present
+    create: true
+  when: item.enable_sudo is defined and item.enable_sudo == true
+  with_items: "{{ users }}"
+
+- name: Disable sudo for user
+  file:
+    path: "{{ sudoers_path }}/{{ item.name }}"
+    state: absent
+  when: item.enable_sudo is defined and item.enable_sudo == false
+  with_items: "{{ users }}"
+
+- name: Include sudoers.d
+  lineinfile:
+    dest: "{{ sudo_config_path }}"
+    state: present
+    regexp: '^\#includedir {{ sudoers_path }}'
+    line: '#includedir {{ sudoers_path }}'
+    validate: 'visudo -cf %s'
+

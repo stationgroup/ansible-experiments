@@ -1,6 +1,6 @@
 # Ansible Playbook Experiments
 
-Paid for by [Bryan Black](https://bringyourwallet.com/donate), for the benefit of all lazy sysadmin. <sub>[What's ansible?](https://docs.ansible.com/)</sub>
+Paid for by [Bryan Black](https://bringyourwallet.com/donate), for the benefit of all lazy sysadmins. <sub>[What's ansible?](https://docs.ansible.com/)</sub>
 
 Special thanks to the helpful devs that contributed their expertise.
 

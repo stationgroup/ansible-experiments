@@ -37,7 +37,7 @@ $50/month  | [Tugger Hosting][thgh]    | [tuggerhosting.com][th]
 
 ## Support Development
 
-### **[Support Now](https://reelsense.tv/donate)**
+### **[Support Now](https://bringyourwallet.com/donate)**
 
 
 ## Community Discussion

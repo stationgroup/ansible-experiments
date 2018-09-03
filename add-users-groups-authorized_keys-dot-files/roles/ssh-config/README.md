@@ -36,7 +36,7 @@ users:
     shell_lines:
       - line: "testline"
         state: present
-      - line: "export SSH_AUTH_SOCK=$HOME/.gnupg/S.gpg-agent.ssh"
+      - line: 'export SSH_AUTH_SOCK="${HOME}/.gnupg/S.gpg-agent.ssh"'
         state: present
       - line: "alias ls='ls lah'"
         state: present

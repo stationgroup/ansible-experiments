@@ -35,7 +35,8 @@ users:
           #multiline
         state: absent
     ssh_config:
-      - ServerAliveInterval: 10
+      - line: "ServerAliveInterval: 10"
+      - line: "Compression no"
   - name: test
     state: present
     keys:

@@ -62,7 +62,7 @@
 - name: Configure cshrc blocks
   blockinfile:
     path: "/home/{{ item.0.name }}/.cshrc"
-    content: "{{ item.1.conent }}"
+    content: "{{ item.1.content }}"
     marker: "# {mark} ANSIBLE managed content. Block item #{{ listitem }}"
     state: "{{ item.1.state | default('present')}}"
     backup: yes

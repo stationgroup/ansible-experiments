@@ -41,7 +41,8 @@ users:
       - line: "alias ls='ls lah'"
         state: present
     ssh_config:
-      - ServerAliveInterval: 10
+      - line: "ServerAliveInterval: 10"
+      - line: "Compression no"
 ```
 
 **Result:**

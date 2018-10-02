@@ -7,7 +7,7 @@
   with_items: "{{ user_groups }}"
 
 
-- name: Add/Remove user
+- name: Add/Remove user(s) on Ubuntu systems
   user:
     name: "{{ item.name }}"
     state: "{{ item.state | default('present') }}"
@@ -18,7 +18,20 @@
     remove: yes
   no_log: False
   with_items: "{{ users }}"
+  when: item.name != 'freebsd' and ansible_os_family == 'Debian'
 
+- name: Add/Remove user(s) on FreeBSD systems
+  user:
+    name: "{{ item.name }}"
+    state: "{{ item.state | default('present') }}"
+    password: "{{ item.password | default(omit) }}"
+    groups: "{{ item.groups | default(omit) }}"
+    uid: "{{ item.uid | default(omit) }}"
+    shell: "{{ item.shell | default(default_shell) }}"
+    remove: yes
+  no_log: False
+  with_items: "{{ users }}"
+  when: item.name != 'ubuntu' and ansible_os_family == 'FreeBSD'
 
 - name: Configure bashrc lines
   lineinfile:

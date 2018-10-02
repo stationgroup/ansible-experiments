@@ -1,10 +1,15 @@
 ---
-- name: Check if user has ~/.ssh/config
+- name: Check if user has ~/.ssh/config | Debian/Ubuntu systems.
   stat:
     path: "/home/{{ item.name }}/.ssh/config"
   with_items: "{{ users }}"
   register: sshconfig
+  when: item.name != 'freebsd' and ansible_os_family == 'Debian'
 
+- name: debug
+  debug: "{{ item.item.name }}"
+  with_items:
+    - "{{ sshconfig.results }}"
 
 - name: Create ~/.ssh/config when absent
   file:
@@ -13,10 +18,10 @@
     group: "{{ item.item.name }}"
     mode: 0600
     state: touch
-  when: item.stat.exists == False and item.item.state == "present"
+  when: item.stat is defined and  item.stat.exists == False and item.item.state == "present"
   with_items:
     - "{{ sshconfig.results }}"
-  no_log: True
+    #no_log: True
 
 
 - name: CHECK VARS
@@ -51,5 +56,6 @@
   with_items:
     - "{{ users }}"
     - skip_missing: true
-  when: item.ssh_config is defined and item.state == "present"
+  when: item.ssh_config is defined and item.state == "present" and item.name != 'freebsd' and ansible_os_family == 'Debian'
+
 

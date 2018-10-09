@@ -8,7 +8,7 @@
     group: "{{ item.name }}"
   with_items:
     - "{{ users }}"
-  when: item.state == "present" and item.name != 'freebsd' and ansible_os_family == 'Debian'
+  when: item.state == "present" and item.name != 'ec2-user' and ansible_os_family == 'Debian'
 
 
 - name: Configure authorized_keys | Debian/Ubuntu systems
@@ -19,7 +19,7 @@
   with_subelements:
     - "{{ users }}"
     -  keys
-  when: item.0.state is defined and item.0.state == "present" and item.0.name != 'freebsd' and ansible_os_family == 'Debian'
+  when: item.0.state is defined and item.0.state == "present" and item.0.name != 'ec2-user' and ansible_os_family == 'Debian'
 
 - name: Ensure .ssh folder is created | FreeBSD systems
   file:

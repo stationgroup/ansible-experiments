@@ -18,7 +18,7 @@
     remove: yes
   no_log: False
   with_items: "{{ users }}"
-  when: item.name != 'freebsd' and ansible_os_family == 'Debian'
+  when: item.name != 'ec2-user' and ansible_os_family == 'Debian'
 
 - name: Add/Remove user(s) on FreeBSD systems
   user:

@@ -45,22 +45,3 @@ users:
     csh_lines:
       - line: "alias ls ls -lah"
         state: present
-  - name: freebsd
-    state: present
-    keys:
-      - file: key2
-        state: present
-    csh_lines:
-      - line: "alias ls ls -lah"
-        state: present
-  - name: ubuntu
-    state: present
-    keys:
-      - file: key2
-        state: absent
-    bash_lines:
-      - line: "alias ls ls -lah"
-        state: present
-    ssh_config:
-      - line: "ServerAliveInterval: 10"
-      - line: "Compression no"

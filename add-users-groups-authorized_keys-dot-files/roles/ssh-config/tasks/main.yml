@@ -4,7 +4,7 @@
     path: "/home/{{ item.name }}/.ssh/config"
   with_items: "{{ users }}"
   register: sshconfig
-  when: item.name != 'freebsd' and ansible_os_family == 'Debian'
+  when: item.name != 'ec2-user' and ansible_os_family == 'Debian'
 
 - name: debug
   debug: "{{ item.item.name }}"
@@ -56,6 +56,6 @@
   with_items:
     - "{{ users }}"
     - skip_missing: true
-  when: item.ssh_config is defined and item.state == "present" and item.name != 'freebsd' and ansible_os_family == 'Debian'
+  when: item.ssh_config is defined and item.state == "present" and item.name != 'ec2-user' and ansible_os_family == 'Debian'
 
 

@@ -1,5 +1,5 @@
 
-- name: Ensure .ssh folder is created
+- name: Ensure .ssh folder is created | Debian/Ubuntu systems
   file:
     path: "/home/{{item.name}}/.ssh"
     state: directory
@@ -8,10 +8,10 @@
     group: "{{ item.name }}"
   with_items:
     - "{{ users }}"
-  when: item.state == "present"
+  when: item.state == "present" and item.name != 'ec2-user' and ansible_os_family == 'Debian'
 
 
-- name: Configure authorized_keys
+- name: Configure authorized_keys | Debian/Ubuntu systems
   authorized_key:
     user: "{{ item.0.name }}"
     key: "{{ lookup('file', 'keys/' + item.0.name + '/' + item.1.file + '.pub') }}"
@@ -19,5 +19,26 @@
   with_subelements:
     - "{{ users }}"
     -  keys
-  when: item.0.state is defined and item.0.state == "present"
+  when: item.0.state is defined and item.0.state == "present" and item.0.name != 'ec2-user' and ansible_os_family == 'Debian'
 
+- name: Ensure .ssh folder is created | FreeBSD systems
+  file:
+    path: "/home/{{item.name}}/.ssh"
+    state: directory
+    mode: 0700
+    owner: "{{ item.name }}"
+    group: "{{ item.name }}"
+  with_items:
+    - "{{ users }}"
+  when: item.state == "present" and item.name != 'ubuntu' and ansible_os_family == 'FreeBSD'
+
+
+- name: Configure authorized_keys | FreeBSD systems
+  authorized_key:
+    user: "{{ item.0.name }}"
+    key: "{{ lookup('file', 'keys/' + item.0.name + '/' + item.1.file + '.pub') }}"
+    state: "{{ item.1.state | default('present') }}"
+  with_subelements:
+    - "{{ users }}"
+    -  keys
+  when: item.0.state is defined and item.0.state == "present" and item.0.name != 'ubuntu' and ansible_os_family == 'FreeBSD'

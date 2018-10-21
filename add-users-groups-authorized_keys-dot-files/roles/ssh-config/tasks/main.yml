@@ -1,10 +1,22 @@
 ---
-- name: Check if user has ~/.ssh/config
+- name: Check if user has ~/.ssh/config | Debian/Ubuntu systems.
   stat:
     path: "/home/{{ item.name }}/.ssh/config"
   with_items: "{{ users }}"
   register: sshconfig
+  when: item.name != 'ec2-user' and ansible_os_family == 'Debian'
+  
+- name: Check if user has ~/.ssh/config | FreeBSD systems.
+  stat:
+    path: "/home/{{ item.name }}/.ssh/config"
+  with_items: "{{ users }}"
+  register: sshconfig
+  when: item.name != 'ubuntu' and ansible_os_family == 'FreeBSD'
 
+- name: debug
+  debug: "{{ item.item.name }}"
+  with_items:
+    - "{{ sshconfig.results }}"
 
 - name: Create ~/.ssh/config when absent
   file:
@@ -13,10 +25,10 @@
     group: "{{ item.item.name }}"
     mode: 0600
     state: touch
-  when: item.stat.exists == False and item.item.state == "present"
+  when: item.stat is defined and  item.stat.exists == False and item.item.state == "present"
   with_items:
     - "{{ sshconfig.results }}"
-  no_log: True
+    no_log: True
 
 
 - name: CHECK VARS
@@ -51,5 +63,29 @@
   with_items:
     - "{{ users }}"
     - skip_missing: true
-  when: item.ssh_config is defined and item.state == "present"
+  when: item.ssh_config is defined and item.state == "present" and item.name != 'ec2-user' and ansible_os_family == 'Debian'
 
+- name: Configure ~/.ssh/config FreeBSD
+  blockinfile:
+    #path: "/home/{{ item.0.name  }}/.ssh/config"
+    path: "/home/{{ item.name  }}/.ssh/config"
+    #owner: "{{ item.0.name }}"
+    owner: "{{ item.name }}"
+    #group: "{{ item.0.name }}"
+    group: "{{ item.name }}"
+    mode: 0600
+    marker: "# {mark} ANSIBLE MANAGED BLOCK"
+    content: |
+      {% for host in groups['all'] -%}
+      Host {{ hostvars[host]['ansible_hostname'] }}
+          Hostname {{ hostvars[host]['inventory_hostname'] }}
+          RemoteForward /home/{{ item.name }}/.gnupg/S.gpg-agent $HOME/.gnupg/S.gpg-agent
+          RemoteForward /home/{{ item.name }}/.gnupg/S.gpg-agent.ssh $HOME/.gnupg/S.gpg-agent.ssh
+      {% for item in item.ssh_config %}
+          {{ item.line }}
+      {% endfor %}
+      {% endfor %}
+  with_items:   
+    - "{{ users }}"
+    - skip_missing: true
+  when: item.ssh_config is defined and item.state == "present" and item.name != 'ubuntu' and ansible_os_family == 'FreeBSD'

@@ -5,6 +5,13 @@
   with_items: "{{ users }}"
   register: sshconfig
   when: item.name != 'ec2-user' and ansible_os_family == 'Debian'
+  
+- name: Check if user has ~/.ssh/config | FreeBSD systems.
+  stat:
+    path: "/home/{{ item.name }}/.ssh/config"
+  with_items: "{{ users }}"
+  register: sshconfig
+  when: item.name != 'ubuntu' and ansible_os_family == 'FreeBSD'
 
 - name: debug
   debug: "{{ item.item.name }}"

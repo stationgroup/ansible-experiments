@@ -28,7 +28,7 @@
   when: item.stat is defined and  item.stat.exists == False and item.item.state == "present"
   with_items:
     - "{{ sshconfig.results }}"
-    no_log: True
+  no_log: True
 
 
 - name: CHECK VARS

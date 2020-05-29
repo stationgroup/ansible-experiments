@@ -22,7 +22,7 @@
       when: not aws_region_env_var
 
     - name: Gather facts about all AMIs with given tag.
-      ec2_ami_facts:
+      ec2_ami_info:
         profile: "{{ aws_profile }}"
         owners: self
         filters: "{{ ami_tag }}"
@@ -59,22 +59,13 @@
         profile: "{{ aws_profile }}"
         image_id: "{{ oldest_ami.image_id }}"
         state: absent
-        # Bug in deleting snapshots : https://github.com/ansible/ansible/issues/39541
-        #delete_snapshot: yes
+        delete_snapshot: yes
       when: ami_list.images
 
     - name: LOG action
       lineinfile:
         line: "{{ ansible_date_time.iso8601 }} AMI CLEANUP - Deregistered AMI: {{ oldest_ami.image_id  }}"
         dest: "{{ log_destination }}"
-      when: ami_list.images
-
-    - name: Cleanup AMI snapshots
-      ec2_snapshot:
-        profile: "{{ aws_profile }}"
-        snapshot_id: "{{ item.ebs.snapshot_id }}"
-        state: absent
-      with_items: "{{ oldest_ami.block_device_mappings }}"
       when: ami_list.images
 
     - name: LOG action
